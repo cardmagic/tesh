@@ -1,68 +1,62 @@
 require "./spec_helper"
 
-class String
-  def parse
-    Lucash::Parser.new.parse(self)
-  end
-end
-
 describe Lucash::Parser do
   it "should raise a parse error with bad input" do
-    expect_raises(Lucash::ParseError) { "(((".parse }
-    expect_raises(Lucash::ParseError) { "end".parse }
-    expect_raises(Lucash::ParseError) { "if".parse }
-    expect_raises(Lucash::ParseError) { "if foo else".parse }
-    expect_raises(Lucash::ParseError) { "}".parse }
+    expect_raises(Lucash::ParseError) { parse("(((") }
+    expect_raises(Lucash::ParseError) { parse("end") }
+    expect_raises(Lucash::ParseError) { parse("if") }
+    expect_raises(Lucash::ParseError) { parse("if foo else") }
+    expect_raises(Lucash::ParseError) { parse("}") }
   end
 
   it "should return an AST for variables" do
-    "foo".parse.should eq([:program, [
+    parse("foo").should eq([:program, [
       [:value, "foo"],
     ]])
 
-    "()".parse.should eq([:program, [
+    parse("()").should eq([:program, [
       [:empty_parens],
     ]])
 
-    "echo -la".parse.should eq([:program, [
+    parse("echo -la").should eq([:program, [
       [:value, "echo", "-la"],
     ]])
 
-    "\"echo -l'a(}\"".parse.should eq([:program, [
+    parse("\"echo -l'a(}\"").should eq([:program, [
       [:embedded_string, "echo -l'a(}"],
     ]])
 
-    "'echo -l\"\"a(}'".parse.should eq([:program, [
+    parse("'echo -l\"\"a(}'").should eq([:program, [
       [:string, "echo -l\"\"a(}"],
     ]])
 
-    "echo -la &".parse.should eq([:program, [
+    parse("echo -la &").should eq([:program, [
       [:background, [:value, "echo", "-la"]],
     ]])
   end
 
   it "should return an AST for math" do
-    "1 + 3.0\n      \n \n".parse.should eq([:program, [
+    parse("1 + 3.0\n      \n \n").should eq([:program, [
       [:+,
        [:number, 1], [:number, 3.0],
       ],
     ]])
 
-    "1 + 3.0\n      \n 1\n".parse.should eq([:program, [
+    parse("1 + 3.0\n      \n 1\n").should eq([:program, [
       [:+,
        [:number, 1], [:number, 3.0],
       ],
       [:number, 1],
     ]])
 
-    "foo + bar".parse.should eq([:program, [
+    parse("foo + bar").should eq([:program, [
       [:+,
        [:value, "foo"],
        [:value, "bar"],
       ],
     ]])
 
-    "5 + x * 10 - y".parse.should eq([:program, [
+    parse("5 + x * 10 - y").should eq([:program, [
       [:-,
        [:+,
         [:number, 5],
@@ -75,7 +69,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "(5 + x) * (10 - y)".parse.should eq([:program, [
+    parse("(5 + x) * (10 - y)").should eq([:program, [
       [:*,
        [:program, [
          [:+,
@@ -94,7 +88,7 @@ describe Lucash::Parser do
   end
 
   it "should return an AST for conditionals" do
-    "if true; echo foobar; end".parse.should eq([:program, [
+    parse("if true; echo foobar; end").should eq([:program, [
       [:if,
        [:value, "true"],
        [:program, [
@@ -103,7 +97,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "if true\n echo foobar\n end".parse.should eq([:program, [
+    parse("if true\n echo foobar\n end").should eq([:program, [
       [:if,
        [:value, "true"],
        [:program, [
@@ -112,7 +106,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "if (cd; true); echo foobar; end".parse.should eq([:program, [
+    parse("if (cd; true); echo foobar; end").should eq([:program, [
       [:if,
        [:program, [
          [:value, "cd"],
@@ -124,7 +118,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "if true; echo foobar\nelse; 123; end".parse.should eq([:program, [
+    parse("if true; echo foobar\nelse; 123; end").should eq([:program, [
       [:if,
        [:value, "true"],
        [:program, [
@@ -136,7 +130,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "if true; echo foobar; else 123; end".parse.should eq([:program, [
+    parse("if true; echo foobar; else 123; end").should eq([:program, [
       [:if,
        [:value, "true"],
        [:program, [
@@ -150,14 +144,14 @@ describe Lucash::Parser do
   end
 
   it "should return an AST for assignment" do
-    "foo = 3".parse.should eq([:program, [
+    parse("foo = 3").should eq([:program, [
       [:assignment,
        [:value, "foo"],
        [:number, 3],
       ],
     ]])
 
-    "foo = 3 / 4".parse.should eq([:program, [
+    parse("foo = 3 / 4").should eq([:program, [
       [:assignment,
        [:value, "foo"],
        [:slash,
@@ -167,7 +161,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "def foo(); 3; end".parse.should eq([:program, [
+    parse("def foo(); 3; end").should eq([:program, [
       [:assignment,
        [:value, "foo"],
        [:lambda,
@@ -179,7 +173,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "def foo; 3; end".parse.should eq([:program, [
+    parse("def foo; 3; end").should eq([:program, [
       [:assignment,
        [:value, "foo"],
        [:lambda,
@@ -191,7 +185,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo = -> (x) { 3 + x }".parse.should eq([:program, [
+    parse("foo = -> (x) { 3 + x }").should eq([:program, [
       [:assignment,
        [:value, "foo"],
        [:lambda,
@@ -210,7 +204,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "def foo(x) 3 + x end".parse.should eq([:program, [
+    parse("def foo(x) 3 + x end").should eq([:program, [
       [:assignment,
        [:value, "foo"],
        [:lambda,
@@ -229,7 +223,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "def factorial(n)
+    parse("def factorial(n)
       -> (n, acc) {
         if n == 0
           acc
@@ -237,7 +231,7 @@ describe Lucash::Parser do
           retry(n - 1, acc * n)
         end
       } (n, 1)
-    end".parse.should eq([:program, [
+    end").should eq([:program, [
       [:assignment,
        [:value, "factorial"],
        [:lambda,
@@ -303,14 +297,14 @@ describe Lucash::Parser do
   end
 
   it "should return an AST for or's and and's" do
-    "foo || bar".parse.should eq([:program, [
+    parse("foo || bar").should eq([:program, [
       [:or,
        [:value, "foo"],
        [:value, "bar"],
       ],
     ]])
 
-    "foo && bar".parse.should eq([:program, [
+    parse("foo && bar").should eq([:program, [
       [:and,
        [:value, "foo"],
        [:value, "bar"],
@@ -319,7 +313,7 @@ describe Lucash::Parser do
   end
 
   it "should return an AST for pipes" do
-    "foo | bar".parse.should eq([:program, [
+    parse("foo | bar").should eq([:program, [
       [:pipe,
        [:value, "foo"],
        [:value, "bar"],
@@ -328,14 +322,14 @@ describe Lucash::Parser do
   end
 
   it "should return an AST for method calls" do
-    "foo.bar".parse.should eq([:program, [
+    parse("foo.bar").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:value, "bar"],
       ],
     ]])
 
-    "foo.bar { baz }".parse.should eq([:program, [
+    parse("foo.bar { baz }").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:yield,
@@ -347,14 +341,14 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.bar()".parse.should eq([:program, [
+    parse("foo.bar()").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:value, "bar"],
       ],
     ]])
 
-    "foo.bar(baz)".parse.should eq([:program, [
+    parse("foo.bar(baz)").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:args,
@@ -368,7 +362,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.bar(baz, aba)".parse.should eq([:program, [
+    parse("foo.bar(baz, aba)").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:args,
@@ -387,7 +381,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.bar(baz, aba) { bab }".parse.should eq([:program, [
+    parse("foo.bar(baz, aba) { bab }").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:yield,
@@ -409,7 +403,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.bar(baz, aba) + 1".parse.should eq([:program, [
+    parse("foo.bar(baz, aba) + 1").should eq([:program, [
       [:+,
        [:method,
         [:value, "foo"],
@@ -431,7 +425,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.bar + 1".parse.should eq([:program, [
+    parse("foo.bar + 1").should eq([:program, [
       [:+,
        [:method,
         [:value, "foo"],
@@ -441,7 +435,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.bar && 1".parse.should eq([:program, [
+    parse("foo.bar && 1").should eq([:program, [
       [:and,
        [:method,
         [:value, "foo"],
@@ -451,7 +445,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.(bar + 1)".parse.should eq([:program, [
+    parse("foo.(bar + 1)").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:program, [
@@ -463,7 +457,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo(3)".parse.should eq([:program, [
+    parse("foo(3)").should eq([:program, [
       [:args,
        [:value, "foo"],
        [:splat, [
@@ -473,7 +467,7 @@ describe Lucash::Parser do
        ]]],
     ]])
 
-    "foo.(bar + 1)(3)".parse.should eq([:program, [
+    parse("foo.(bar + 1)(3)").should eq([:program, [
       [:method,
        [:value, "foo"],
        [:args,
@@ -492,7 +486,7 @@ describe Lucash::Parser do
       ],
     ]])
 
-    "foo.(bar + 1)(3) + 1".parse.should eq([:program, [
+    parse("foo.(bar + 1)(3) + 1").should eq([:program, [
       [:+,
        [:method,
         [:value, "foo"],
