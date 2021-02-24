@@ -8,7 +8,7 @@ module Lucash
     def initialize(@input)
       @position = 0      # current position in input (points to the current char)
       @read_position = 0 # current reading position in input (points to the next char)
-      @ch = 0            # current char under examination
+      @ch = ""           # current char under examination
     end
 
     def read_char
@@ -19,6 +19,18 @@ module Lucash
       end
       @position = @read_position
       @read_position += 1
+    end
+
+    def read_identifier
+      pos = @position
+      while is_letter?(@ch)
+        read_char
+      end
+      @input[pos...@position]
+    end
+
+    def is_letter?(string)
+      string.is_a?(String) && string =~ /[a-zA-Z_]+/
     end
 
     def next_token
@@ -42,7 +54,11 @@ module Lucash
             when 0
               Token.new(Token::EOF, "")
             else
-              Token.new(Token::EMTPY, @ch)
+              if is_letter?(@ch)
+                Token.new(read_identifier, @ch)
+              else
+                Token.new(Token::ILLEGAL, @ch)
+              end
             end
 
       read_char

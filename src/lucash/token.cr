@@ -26,7 +26,6 @@ module Lucash
     # Keywords
     FUNCTION = "FUNCTION"
     LET      = "LET"
-    EMTPY    = "EMTPY"
 
     def data
       [@type, @literal]
