@@ -1,0 +1,13 @@
+name: lucash
+version: 0.1.0
+
+authors:
+  - Lucas Carlson <lucas@carlson.net>
+
+targets:
+  lucash:
+    main: src/lucash.cr
+
+crystal: 0.36.0
+
+license: MIT

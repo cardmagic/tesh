@@ -1,4 +1,3 @@
-require "../../src/lucash.cr"
 require "spec"
 
 describe Array do
