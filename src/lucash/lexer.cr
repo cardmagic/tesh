@@ -29,41 +29,44 @@ module Lucash
       @input[pos...@position]
     end
 
-    def is_letter?(string)
-      string.is_a?(String) && string =~ /[a-zA-Z_]+/
+    def is_letter?(str)
+      if str.is_a?(String)
+        str =~ /[a-zA-Z_]+/
+      else
+        false
+      end
     end
 
     def next_token
-      tok = case @ch
-            when '='
-              Token.new(Token::ASSIGN, @ch)
-            when ';'
-              Token.new(Token::SEMICOLON, @ch)
-            when '('
-              Token.new(Token::LPAREN, @ch)
-            when ')'
-              Token.new(Token::RPAREN, @ch)
-            when ','
-              Token.new(Token::COMMA, @ch)
-            when '+'
-              Token.new(Token::PLUS, @ch)
-            when '{'
-              Token.new(Token::LBRACE, @ch)
-            when '}'
-              Token.new(Token::RBRACE, @ch)
-            when 0
-              Token.new(Token::EOF, "")
-            else
-              if is_letter?(@ch)
-                Token.new(read_identifier, @ch)
-              else
-                Token.new(Token::ILLEGAL, @ch)
-              end
-            end
-
       read_char
 
-      return tok
+      case @ch
+      when '='
+        Token.new(Token::ASSIGN, @ch)
+      when ';'
+        Token.new(Token::SEMICOLON, @ch)
+      when '('
+        Token.new(Token::LPAREN, @ch)
+      when ')'
+        Token.new(Token::RPAREN, @ch)
+      when ','
+        Token.new(Token::COMMA, @ch)
+      when '+'
+        Token.new(Token::PLUS, @ch)
+      when '{'
+        Token.new(Token::LBRACE, @ch)
+      when '}'
+        Token.new(Token::RBRACE, @ch)
+      when 0
+        Token.new(Token::EOF, "")
+      else
+        if is_letter?(@ch)
+          ident = read_identifier
+          Token.new(Token.lookup_ident(ident), ident)
+        else
+          Token.new(Token::ILLEGAL, @ch)
+        end
+      end
     end
   end
 end

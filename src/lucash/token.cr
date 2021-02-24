@@ -27,11 +27,24 @@ module Lucash
     FUNCTION = "FUNCTION"
     LET      = "LET"
 
+    KEYWORDS = {
+      "fn"  => FUNCTION,
+      "let" => LET,
+    }
+
     def data
       [@type, @literal]
     end
 
     def initialize(@type, @literal)
+    end
+
+    def self.lookup_ident(ident)
+      if KEYWORDS.has_key?(ident)
+        KEYWORDS[ident]
+      else
+        IDENT
+      end
     end
   end
 end
