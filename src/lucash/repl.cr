@@ -10,10 +10,8 @@ module Lucash
 
         line = Lexer.new(data)
 
-        while tok = line.next_token
-          if tok.type != Token::EOF
-            puts tok.data
-          end
+        while (tok = line.next_token) && tok.type != Token::EOF
+          puts tok.data
         end
       end
     end
