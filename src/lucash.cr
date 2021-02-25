@@ -26,7 +26,13 @@
 require "./lucash/token"
 require "./lucash/lexer"
 require "./lucash/parser"
+require "./lucash/repl"
+require "./lucash/cli"
 
 module Lucash
   VERSION = "0.1.0"
+end
+
+unless ENV.has_key?("NON_INTERACTIVE")
+  Lucash::CLI.new
 end

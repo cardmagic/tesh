@@ -8,9 +8,9 @@ module Lucash
     def initialize(@input)
       @position = 0      # current position in input (points to the current char)
       @read_position = 0 # current reading position in input (points to the next char)
-      @ch = ""           # current char under examination
+      @ch = ""           # character to be evaluated
 
-      read_char
+      read_char # reads the first char
     end
 
     def read_char
@@ -21,6 +21,14 @@ module Lucash
       end
       @position = @read_position
       @read_position += 1
+    end
+
+    def peek_char
+      if @read_position >= @input.size
+        0
+      else
+        @input[@read_position, 1]
+      end
     end
 
     def read_identifier
@@ -66,7 +74,12 @@ module Lucash
 
       tok = case @ch
             when "="
-              Token.new(Token::ASSIGN, @ch)
+              if peek_char == "="
+                read_char
+                Token.new(Token::EQ, "==")
+              else
+                Token.new(Token::ASSIGN, @ch)
+              end
             when ";"
               Token.new(Token::SEMICOLON, @ch)
             when "("
@@ -77,6 +90,23 @@ module Lucash
               Token.new(Token::COMMA, @ch)
             when "+"
               Token.new(Token::PLUS, @ch)
+            when "-"
+              Token.new(Token::MINUS, @ch)
+            when "!"
+              if peek_char == "="
+                read_char
+                Token.new(Token::NOT_EQ, "!=")
+              else
+                Token.new(Token::BANG, @ch)
+              end
+            when "/"
+              Token.new(Token::SLASH, @ch)
+            when "*"
+              Token.new(Token::ASTERISK, @ch)
+            when "<"
+              Token.new(Token::LT, @ch)
+            when ">"
+              Token.new(Token::GT, @ch)
             when "{"
               Token.new(Token::LBRACE, @ch)
             when "}"

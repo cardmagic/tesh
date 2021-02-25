@@ -11,8 +11,17 @@ module Lucash
     INT   = "INT"
 
     # Operators
-    ASSIGN = "="
-    PLUS   = "+"
+    EQ       = "=="
+    NOT_EQ   = "!="
+    ASSIGN   = "="
+    PLUS     = "+"
+    MINUS    = "-"
+    BANG     = "!"
+    ASTERISK = "*"
+    SLASH    = "/"
+
+    LT = "<"
+    GT = ">"
 
     # Delimiters
     COMMA     = ","
@@ -26,10 +35,20 @@ module Lucash
     # Keywords
     FUNCTION = "FUNCTION"
     LET      = "LET"
+    TRUE     = "TRUE"
+    FALSE    = "FALSE"
+    IF       = "IF"
+    ELSE     = "ELSE"
+    RETURN   = "RETURN"
 
     KEYWORDS = {
-      "fn"  => FUNCTION,
-      "let" => LET,
+      "fn"     => FUNCTION,
+      "let"    => LET,
+      "true"   => TRUE,
+      "false"  => FALSE,
+      "if"     => IF,
+      "else"   => ELSE,
+      "return" => RETURN,
     }
 
     def data
@@ -37,6 +56,14 @@ module Lucash
     end
 
     def initialize(@type, @literal)
+    end
+
+    def type
+      @type
+    end
+
+    def literal
+      @literal
     end
 
     def self.lookup_ident(ident)

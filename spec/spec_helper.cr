@@ -1,3 +1,5 @@
+ENV["NON_INTERACTIVE"] ||= "1"
+
 require "spec"
 require "../src/lucash"
 
