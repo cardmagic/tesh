@@ -1,6 +1,6 @@
 # lucash
 
-A highly dynamic programming language/shell environment with data structures
+A highly dynamic shell environment/programming language with data structures
 
 ## Installation
 
