@@ -1,4 +1,4 @@
-module Lucash
+module Tesh
   class LexerError < Exception; end
 
   class Lexer

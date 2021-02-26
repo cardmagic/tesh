@@ -1,4 +1,4 @@
-module Lucash
+module Tesh
   class REPL
     PROMPT = ">> "
 

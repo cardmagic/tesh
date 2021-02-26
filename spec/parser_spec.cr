@@ -1,4 +1,4 @@
 require "./spec_helper"
 
-describe Lucash::Parser do
+describe Tesh::Parser do
 end

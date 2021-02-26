@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Lucash do
+describe Tesh do
   # TODO: Write tests
 
   it "works" do

@@ -2,7 +2,7 @@ require "./ast"
 require "./lexer"
 require "./token"
 
-module Lucash
+module Tesh
   class ParseError < Exception; end
 
   class Parser
@@ -18,10 +18,6 @@ module Lucash
     end
 
     def parse_program
-    end
-
-    def parse(string)
-      raise ParseError.new("Nothing works yet")
     end
   end
 end

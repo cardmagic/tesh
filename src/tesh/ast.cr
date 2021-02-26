@@ -1,6 +1,6 @@
 require "./token"
 
-module Lucash
+module Tesh
   class Node
     def initialize(@token)
     end

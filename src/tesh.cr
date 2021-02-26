@@ -23,16 +23,16 @@
 # Copyright:: Copyright (c) 2021 Lucas Carlson
 # License::   MIT
 
-require "./lucash/token"
-require "./lucash/lexer"
-require "./lucash/parser"
-require "./lucash/repl"
-require "./lucash/cli"
+require "./tesh/token"
+require "./tesh/lexer"
+require "./tesh/parser"
+require "./tesh/repl"
+require "./tesh/cli"
 
-module Lucash
+module Tesh
   VERSION = "0.1.0"
 end
 
 unless ENV.has_key?("NON_INTERACTIVE")
-  Lucash::CLI.new
+  Tesh::CLI.new
 end

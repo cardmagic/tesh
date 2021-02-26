@@ -1,4 +1,4 @@
-module Lucash
+module Tesh
   class Token
     @type : String
     @literal : String | Int32
