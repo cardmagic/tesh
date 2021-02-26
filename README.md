@@ -1,4 +1,4 @@
-# lucash
+# tesh
 
 A highly dynamic shell environment/programming language with data structures
 
