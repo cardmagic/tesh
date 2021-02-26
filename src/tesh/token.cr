@@ -34,7 +34,7 @@ module Tesh
 
     # Keywords
     FUNCTION = "FUNCTION"
-    LET      = "LET"
+    EXPORT   = "EXPORT"
     TRUE     = "TRUE"
     FALSE    = "FALSE"
     IF       = "IF"
@@ -42,13 +42,13 @@ module Tesh
     RETURN   = "RETURN"
 
     KEYWORDS = {
-      "fn"     => FUNCTION,
-      "let"    => LET,
-      "true"   => TRUE,
-      "false"  => FALSE,
-      "if"     => IF,
-      "else"   => ELSE,
-      "return" => RETURN,
+      "function" => FUNCTION,
+      "export"   => EXPORT,
+      "true"     => TRUE,
+      "false"    => FALSE,
+      "if"       => IF,
+      "else"     => ELSE,
+      "return"   => RETURN,
     }
 
     def data
