@@ -75,6 +75,8 @@ module Tesh
       case cur_token.type
       when Token::EXPORT
         parse_export_statement
+      when Token::RETURN
+        parse_return_statement
       else
         nil
       end
@@ -85,6 +87,13 @@ module Tesh
       return nil unless expect_peek(Token::IDENT)
       stmt.name = Identifier.new(cur_token, cur_token.literal)
       return nil unless expect_peek(Token::ASSIGN)
+      return nil unless expect_peek(Token::INT)
+      return nil unless expect_peek(Token::SEMICOLON)
+      return stmt
+    end
+
+    def parse_return_statement
+      stmt = ReturnStatement.new(cur_token)
       return nil unless expect_peek(Token::INT)
       return nil unless expect_peek(Token::SEMICOLON)
       return stmt

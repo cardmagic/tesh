@@ -45,6 +45,9 @@ module Tesh
   class ExportStatement < Statement
   end
 
+  class ReturnStatement < Statement
+  end
+
   class Identifier
     @token : Token
     @value : Int32 | String
