@@ -10,6 +10,7 @@ describe Tesh::Parser do
       program = p.parse_program
       p.errors.should eq([] of String)
       program.statements.size.should eq(3)
+      program.to_s.should eq "export x = 5; export y = 10; export foobar = 838383;"
 
       [
         ["x"],
@@ -39,6 +40,7 @@ describe Tesh::Parser do
       program = p.parse_program
       p.errors.should eq([] of String)
       program.statements.size.should eq(3)
+      program.to_s.should eq input
 
       [
         ["5"],

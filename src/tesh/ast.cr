@@ -24,13 +24,19 @@ module Tesh
 
   class Statement
     @token : Token
-    @name : Int32 | Identifier
+    @value : Identifier
+    @name : Identifier
 
     def initialize(@token)
-      @name = 0
+      # placeholder name and value
+      @name = Identifier.new(Token.new(Token::ILLEGAL, ""), "")
+      @value = Identifier.new(Token.new(Token::ILLEGAL, ""), "")
     end
 
     def name=(@name)
+    end
+
+    def value=(@value)
     end
 
     def token
@@ -40,12 +46,39 @@ module Tesh
     def token_literal
       @token.literal
     end
+
+    def name
+      @name.token.literal
+    end
+
+    def value
+      @value.token.literal
+    end
+
+    def to_s
+      ""
+    end
   end
 
   class ExportStatement < Statement
+    def to_s
+      "#{token_literal} #{name} = #{value};"
+    end
   end
 
   class ReturnStatement < Statement
+    def to_s
+      "#{token_literal} #{value};"
+    end
+  end
+
+  class ExpressionStatement < Statement
+    def expression=(@expression)
+    end
+
+    def expression
+      @expression
+    end
   end
 
   class Identifier
@@ -63,9 +96,6 @@ module Tesh
       @value
     end
 
-    def expression_node
-    end
-
     def token_literal
       @token.literal
     end
@@ -81,6 +111,12 @@ module Tesh
 
     def <<(stmt)
       @statements << stmt
+    end
+
+    def to_s
+      statements.map do |stmt|
+        stmt.to_s
+      end.join(" ")
     end
   end
 end
