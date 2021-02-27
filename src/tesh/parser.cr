@@ -11,6 +11,7 @@ module Tesh
     @peek_token : Token
 
     def initialize(@lexer)
+      @errors = [] of String
       @cur_token = Token.new(Token::ILLEGAL, "")
       @peek_token = Token.new(Token::ILLEGAL, "")
       # Read two token, so @cur_token and @peek_token are both set
@@ -26,26 +27,35 @@ module Tesh
       @peek_token
     end
 
+    def errors
+      @errors
+    end
+
     def next_token
       @cur_token = @peek_token
       @peek_token = @lexer.next_token
     end
 
-    def cur_token_is?(type)
-      cur_token.type == type
+    def cur_token_is?(token_type)
+      cur_token.type == token_type
     end
 
-    def peek_token_is?(type)
-      peek_token.type == type
+    def peek_token_is?(token_type)
+      peek_token.type == token_type
     end
 
-    def expect_peek(type)
-      if peek_token_is?(type)
+    def expect_peek(token_type)
+      if peek_token_is?(token_type)
         next_token
         true
       else
+        peek_error(token_type)
         false
       end
+    end
+
+    def peek_error(token_type)
+      @errors << "Expected next token to be #{token_type} but got #{peek_token.type} instead"
     end
 
     def parse_program
@@ -77,7 +87,6 @@ module Tesh
       return nil unless expect_peek(Token::ASSIGN)
       return nil unless expect_peek(Token::INT)
       return nil unless expect_peek(Token::SEMICOLON)
-
       return stmt
     end
   end
