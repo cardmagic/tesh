@@ -22,7 +22,7 @@ describe Tesh::Parser do
     end
 
     it "shouldn't work for invalid export statements" do
-      input = "export 838383;"
+      input = "let x 5; let = 10; export 838383;"
 
       l = Tesh::Lexer.new(input)
       p = Tesh::Parser.new(l)
