@@ -4,11 +4,26 @@ A highly dynamic shell environment/programming language with data structures
 
 ## Installation
 
-TODO: Write installation instructions here
+```console
+$ crystal build
+$ mv tesh /usr/local/bin
+$ tesh
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Tesh is built to look and feel like bash almost all the time.
+
+```console
+$ echo hello world
+hello world
+```
+But then add various programming primitives that engineers expect.
+
+```console
+$ echo 1 + 2
+3
+```
 
 ## Development
 
