@@ -5,6 +5,8 @@ A highly dynamic shell environment/programming language with data structures
 ## Installation
 
 ```console
+$ git clone git@github.com:cardmagic/tesh.git
+$ cd tesh
 $ crystal build
 $ mv tesh /usr/local/bin
 $ tesh
