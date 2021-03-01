@@ -27,7 +27,7 @@ $ echo 1 + 2
 3
 ```
 
-Manipulating data becomes very natural for anyone familiar with Javascript, Ruby or Python.
+Manipulating data becomes very natural for anyone familiar with Ruby, Javascript or Python.
 
 ```console
 $ ls
@@ -46,6 +46,8 @@ $ if ls.split.last.present?; then
   cd ls.split.last
 fi
 ```
+
+A lot of the OO syntax and methods are borrowed from Ruby, but unlike using IRB, almost all primitive bash calls work out of the box as well.
 
 ## Contributing
 
