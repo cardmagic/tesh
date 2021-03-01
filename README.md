@@ -31,11 +31,13 @@ Manipulating data becomes very natural for anyone familiar with Javascript, Ruby
 
 ```console
 $ ls
-foo      bar    baz
+foo      bar     baz
+$ ls.upcase
+FOO      BAR     BAZ
 $ ls.split[1]
 bar
-$ ls.split.map { |i| i.upcase }
-FOO      BAR    BAZ
+$ ls.split.map { |i| i.capitalize }
+Foo      Bar     Baz
 $ (ls -la).split.first
 drwxr-xr-x
 $ cd ls.split.last
