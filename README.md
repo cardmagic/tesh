@@ -40,6 +40,8 @@ $ ls.split.map { |i| i.capitalize }
 Foo      Bar     Baz
 $ (ls -la).split.first
 drwxr-xr-x
+$ ls.split.last.class
+Directory
 $ if ls.split.last.present?; then
   cd ls.split.last
 fi
