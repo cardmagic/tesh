@@ -1,6 +1,6 @@
 # tesh
 
-A highly dynamic shell environment/programming language with data structures
+A highly dynamic object-oriented shell environment for programmers
 
 ## Installation
 
@@ -20,11 +20,23 @@ Tesh is built to look and feel like bash almost all the time.
 $ echo hello world
 hello world
 ```
-But then add various programming primitives that engineers expect.
+But then add various programming primitives and object-oriented classes that engineers expect.
 
 ```console
 $ echo 1 + 2
 3
+```
+
+Manipulating data becomes very natural for anyone familiar with Javascript, Ruby or Python.
+
+```console
+$ ls
+foo      bar    baz
+$ ls.split[1]
+bar
+$ ls.map { |i| i.upcase }
+FOO      BAR    BAZ
+$ cd ls.split.last
 ```
 
 ## Development
