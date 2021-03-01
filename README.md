@@ -49,7 +49,7 @@ fi
 
 A lot of the OO syntax and methods are borrowed from Ruby, but unlike using IRB, almost all primitive bash calls work out of the box as well.
 
-You can override binaries with functions, but still call back to the native binaries with the super call.
+You can override binaries and native keywords with your own custom functions, but still call back to the native binaries with the super call.
 
 ```console
 $ ls
