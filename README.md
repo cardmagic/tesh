@@ -40,7 +40,10 @@ $ ls.split.map { |i| i.capitalize }
 Foo      Bar     Baz
 $ (ls -la).split.first
 drwxr-xr-x
-$ if ls.split.last.present?; then; cd ls.split.last; fi
+$ if ls.split.last.present?
+then
+  cd ls.split.last
+fi
 ```
 
 ## Development
