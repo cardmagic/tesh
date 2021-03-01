@@ -49,6 +49,16 @@ fi
 
 A lot of the OO syntax and methods are borrowed from Ruby, but unlike using IRB, almost all primitive bash calls work out of the box as well.
 
+You can override binaries with functions, but still call back to the native binaries with the super call.
+
+```console
+$ ls
+foo      bar     baz
+$ function ls { super.upcase }
+$ ls
+FOO      BAR     BAZ
+```
+
 ## Contributing
 
 1. Fork it (<https://github.com/cardmagic/lucash/fork>)
