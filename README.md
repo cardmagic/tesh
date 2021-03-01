@@ -45,10 +45,6 @@ $ if ls.split.last.present?; then
 fi
 ```
 
-## Development
-
-TODO: Write development instructions here
-
 ## Contributing
 
 1. Fork it (<https://github.com/cardmagic/lucash/fork>)
