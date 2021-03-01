@@ -34,6 +34,8 @@ $ ls
 foo      bar    baz
 $ ls.split[1]
 bar
+$ (ls -la).split.first
+drwxr-xr-x
 $ ls.map { |i| i.upcase }
 FOO      BAR    BAZ
 $ cd ls.split.last
