@@ -1,6 +1,6 @@
 # tesh
 
-A highly dynamic object-oriented shell environment for programmers
+A highly dynamic object-oriented shell environment built specifically for programmers
 
 ## Installation
 
