@@ -1,6 +1,6 @@
 # tesh
 
-A highly dynamic object-oriented shell environment for programmers
+A highly dynamic object-oriented shell environment built specifically for programmers
 
 ## Installation
 
@@ -27,7 +27,7 @@ $ echo 1 + 2
 3
 ```
 
-Manipulating data becomes very natural for anyone familiar with Javascript, Ruby or Python.
+Manipulating data becomes very natural for anyone familiar with Ruby, Javascript or Python.
 
 ```console
 $ ls
@@ -40,15 +40,24 @@ $ ls.split.map { |i| i.capitalize }
 Foo      Bar     Baz
 $ (ls -la).split.first
 drwxr-xr-x
-$ if ls.split.last.present?
-then
+$ ls.split.last.class
+Directory
+$ if ls.split.last.present?; then
   cd ls.split.last
 fi
 ```
 
-## Development
+A lot of the OO syntax and methods are borrowed from Ruby, but unlike using IRB, almost all primitive bash calls work out of the box as well.
 
-TODO: Write development instructions here
+You can override binaries and native keywords with your own custom functions, but still call back to the native binaries with the super call.
+
+```console
+$ ls
+foo      bar     baz
+$ function ls { super.upcase }
+$ ls
+FOO      BAR     BAZ
+```
 
 ## Contributing
 
