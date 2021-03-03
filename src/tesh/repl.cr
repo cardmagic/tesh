@@ -1,3 +1,5 @@
+require "readline"
+
 module Tesh
   class REPL
     PROMPT = ">> "
@@ -5,10 +7,9 @@ module Tesh
     def initialize
       data = ""
       while data != "exit"
-        print PROMPT
-        data = gets.to_s.chomp
+        data = Readline.readline(PROMPT)
 
-        line = Lexer.new(data)
+        line = Lexer.new(data.to_s)
 
         while (tok = line.next_token) && tok.type != Token::EOF
           puts tok.data

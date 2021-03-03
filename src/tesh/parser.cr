@@ -71,6 +71,12 @@ module Tesh
       program
     end
 
+    def prefix_parse
+    end
+
+    def infix_parse(expression)
+    end
+
     def parse_statement
       case cur_token.type
       when Token::EXPORT

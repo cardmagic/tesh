@@ -8,6 +8,10 @@ targets:
   tesh:
     main: src/tesh.cr
 
+dependencies:
+  readline:
+    github: crystal-lang/crystal-readline
+
 crystal: 0.36.0
 
 license: MIT
