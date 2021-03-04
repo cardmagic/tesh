@@ -13,9 +13,9 @@ module Tesh
       @cur_token = Token.new(Token::ILLEGAL, "")
       @peek_token = Token.new(Token::ILLEGAL, "")
       @prefix_parse_fns = {
-        Token::IDENT => :parse_identifier,
-      }
-      @infix_parse_fns = {} of String => Proc(Expression)
+        Token::IDENT => ->(expr : Expression) { parse_identifier(expr) },
+      } of String => Proc(Expression, Nil)
+      @infix_parse_fns = {} of String => Proc(Expression, Nil)
 
       # Read two token, so @cur_token and @peek_token are both set
       next_token
@@ -117,9 +117,12 @@ module Tesh
       return stmt
     end
 
+    def parse_identifier(ident)
+    end
+
     def parse_expression(precedence)
       if prefix = @prefix_parse_fns[cur_token.type]
-        self.call(:prefix, cur_token)
+        prefix.call(cur_token)
       end
     end
   end
