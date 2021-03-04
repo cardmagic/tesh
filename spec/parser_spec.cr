@@ -61,5 +61,20 @@ describe Tesh::Parser do
       p.errors.size.should eq(2)
       p.errors.should eq(["Expected next token to be INT but got IDENT instead", "Expected next token to be INT but got ; instead"])
     end
+
+    it "should work with identifier expressions" do
+      input = "foobar;"
+
+      l = Tesh::Lexer.new(input)
+      p = Tesh::Parser.new(l)
+      program = p.parse_program
+      p.errors.should eq([] of String)
+      program.statements.size.should eq(1)
+
+      stmt = program.statements.first
+      ident = stmt.expression
+      ident.value.should eq("foobar")
+      ident.token_literal.should eq("foobar")
+    end
   end
 end

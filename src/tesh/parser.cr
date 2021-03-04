@@ -7,13 +7,16 @@ module Tesh
 
   class Parser
     @lexer : Lexer
-    @cur_token : Token
-    @peek_token : Token
 
     def initialize(@lexer)
       @errors = [] of String
       @cur_token = Token.new(Token::ILLEGAL, "")
       @peek_token = Token.new(Token::ILLEGAL, "")
+      @prefix_parse_fns = {
+        Token::IDENT => :parse_identifier,
+      }
+      @infix_parse_fns = {} of String => Proc(Expression)
+
       # Read two token, so @cur_token and @peek_token are both set
       next_token
       next_token
@@ -84,7 +87,7 @@ module Tesh
       when Token::RETURN
         parse_return_statement
       else
-        nil
+        parse_expression_statement
       end
     end
 
@@ -105,6 +108,19 @@ module Tesh
       stmt.value = Identifier.new(cur_token, cur_token.literal.to_s)
       return nil unless expect_peek(Token::SEMICOLON)
       return stmt
+    end
+
+    def parse_expression_statement
+      stmt = ExpressionStatement.new(cur_token)
+      stmt.expression = parse_expression(:lowest)
+      next_token if peek_token_is(Token::SEMICOLON)
+      return stmt
+    end
+
+    def parse_expression(precedence)
+      if prefix = @prefix_parse_fns[cur_token.type]
+        self.call(:prefix, cur_token)
+      end
     end
   end
 end

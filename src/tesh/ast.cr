@@ -7,7 +7,12 @@ module Tesh
     def initialize(@token)
     end
 
+    def value
+      @token.literal
+    end
+
     def token_literal
+      @token.literal
     end
   end
 
@@ -20,23 +25,40 @@ module Tesh
     def node
       @node
     end
+
+    def value
+      @node.value
+    end
+
+    def token_literal
+      @node.token_literal
+    end
   end
 
   class Statement
     @token : Token
     @value : Identifier
     @name : Identifier
+    @expression : Expression
 
     def initialize(@token)
       # placeholder name and value
       @name = Identifier.new(Token.new(Token::ILLEGAL, ""), "")
       @value = Identifier.new(Token.new(Token::ILLEGAL, ""), "")
+      @expression = Expression.new(Node.new(Token.new(Token::ILLEGAL, "")))
     end
 
     def name=(@name)
     end
 
     def value=(@value)
+    end
+
+    def expression=(@expression)
+    end
+
+    def expression
+      @expression
     end
 
     def token
@@ -73,12 +95,6 @@ module Tesh
   end
 
   class ExpressionStatement < Statement
-    def expression=(@expression)
-    end
-
-    def expression
-      @expression
-    end
   end
 
   class Identifier
